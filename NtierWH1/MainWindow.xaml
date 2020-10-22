@@ -4,12 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NtierWH"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignDarkBackground}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Foreground="LightGray"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="720" Width="1280">
+    <Window.Resources>
+        <DataTemplate x:Key="LessonItemTemplate">
+            <Grid>
+            <StackPanel VerticalAlignment="Stretch">
+                    <TextBlock Text="{Binding LessonName}" FontSize="30" Height="40px"></TextBlock>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:ViewModel></local:ViewModel>
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <ListBox ItemTemplate="{DynamicResource LessonItemTemplate}" ItemsSource="{Binding LessonList}" Name="LessonListBox" Foreground="LightGray"></ListBox>
+        <local:LessonDetailsView Grid.Column="1" DataContext="{Binding ElementName=LessonListBox, Path=SelectedItem}"></local:LessonDetailsView>
     </Grid>
 </Window>
