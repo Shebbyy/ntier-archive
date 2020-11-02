@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
+using System.Windows;
 
 namespace NtierWH
 {
-    public class ViewModel
+    public class ViewModel : INotifyPropertyChanged
     {
         public List<Lessons> LessonList { get; set; }
 
         private Lessons _SelectedLesson = null;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Lessons SelectedLesson
         {
             get { return _SelectedLesson; }
@@ -17,12 +22,18 @@ namespace NtierWH
                 if (_SelectedLesson != value)
                 {
                     _SelectedLesson = value;
+                    CurrentView = new LessonViewModel();
+
+                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("CurrentView"));
                 }
             }
         }
 
+        public BaseViewModel CurrentView { get; set; }
+
         public ViewModel()
         {
+            CurrentView = new WelcomeViewModel();
 
             LessonList = new List<Lessons>();
 

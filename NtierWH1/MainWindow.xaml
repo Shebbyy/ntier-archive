@@ -32,7 +32,16 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListBox ItemTemplate="{DynamicResource LessonItemTemplate}" ItemsSource="{Binding LessonList}" Name="LessonListBox" Foreground="LightGray"></ListBox>
-        <local:LessonDetailsView Grid.Column="1" DataContext="{Binding ElementName=LessonListBox, Path=SelectedItem}"></local:LessonDetailsView>
+        <ListBox ItemTemplate="{DynamicResource LessonItemTemplate}" ItemsSource="{Binding LessonList}" Name="LessonListBox" Foreground="LightGray" SelectedItem="{Binding SelectedLesson}"></ListBox>
+        <ContentControl Content="{Binding CurrentView}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type local:WelcomeViewModel}">
+                    <local:WelcomeView></local:WelcomeView>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type local:LessonViewModel}">
+                    <local:LessonDetailsView DataContext="{Binding ElementName=LessonListBox, Path=SelectedItem}"></local:LessonDetailsView>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>
