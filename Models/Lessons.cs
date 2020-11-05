@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NtierWH
+namespace Models
 {
     public class Lessons
     {

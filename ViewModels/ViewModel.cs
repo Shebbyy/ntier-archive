@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
+using Models;
 
-namespace NtierWH
+
+namespace ViewModels
 {
     public class ViewModel : INotifyPropertyChanged
     {
