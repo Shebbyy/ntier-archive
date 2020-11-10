@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
+using DataAccess;
 using Models;
-
+using Repositories.Interfaces;
 
 namespace ViewModels
 {
@@ -37,28 +38,8 @@ namespace ViewModels
         {
             CurrentView = new WelcomeViewModel();
 
-            LessonList = new List<Lessons>();
-
-            LessonList.Add(new Lessons()
-            {
-                LessonName = "E",
-                Teacher = "Atzlesberger",
-                Description = "Boring english stuff you'll never need in your entire life"
-            });
-
-            LessonList.Add(new Lessons()
-            {
-                LessonName = "IMC",
-                Teacher = "MSC Christoph Meisinger",
-                Description = "Design and Web Dev"
-            });
-
-            LessonList.Add(new Lessons()
-            {
-                LessonName = "SWPM",
-                Teacher = "DI Markus Meisinger",
-                Description = "Programming stuff and managing Projects"
-            });
+            ILessonRepository repo = new MockLessonRepository();
+            LessonList = repo.Get();
         }
     }
 }
