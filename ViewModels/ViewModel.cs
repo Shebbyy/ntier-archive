@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using System.Windows;
 using DataAccess;
@@ -38,7 +42,15 @@ namespace ViewModels
         {
             CurrentView = new WelcomeViewModel();
 
-            ILessonRepository repo = new MockLessonRepository();
+            var CustomerRepoName = ConfigurationManager.AppSettings["LessonRepository"];
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            string path = Uri.UnescapeDataString(uri.Path);
+            var currentDirectory = Path.GetDirectoryName(path);
+            var myAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath($"{currentDirectory}/DataAccess.dll");
+            var myType = myAssembly.GetType($"DataAccess.{CustomerRepoName}");
+            ILessonRepository repo = (ILessonRepository)Activator.CreateInstance(myType);
+
             LessonList = repo.Get();
         }
     }
